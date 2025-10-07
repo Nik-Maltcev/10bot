@@ -54,9 +54,11 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_data = reset_if_needed(user_id)
     
     if len(user_data['notes']) >= MAX_MESSAGES:
-        await update.message.reply_text(
-            f"❌ Лимит исчерпан! Осталось: 0/{MAX_MESSAGES}\n"
-            f"Удалите заметки через /delete или ждите сброса."
+        await update.message.delete()
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text=f"❌ Лимит исчерпан! Осталось: 0/{MAX_MESSAGES}\n"
+                 f"Удалите заметку через /delete и отправьте сообщение повторно."
         )
         return
     
